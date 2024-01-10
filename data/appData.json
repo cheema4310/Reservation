@@ -1,0 +1,49 @@
+{
+  "services": [
+    {
+      "serviceTitle": "Hair Treatment",
+      "serviceTypes": [
+        { "title": "Shampoo Style", "charges": 300 },
+        { "title": "Color Balance Toner", "charges": 500 },
+        { "title": "Glossing Treatment Demi-Permanent", "charges": 500 },
+        { "title": "Botanical Therapy Hair Spa Treatment", "charges": 450 }
+      ],
+      "serviceStaff": [
+        "benjamin miller",
+        "alexander davis",
+        "emily smith",
+        "olivia johnson"
+      ]
+    },
+    {
+      "serviceTitle": "Men's Haircut",
+      "serviceTypes": [
+        { "title": "Regular", "charges": 500 },
+        { "title": "Haircut & Beard", "charges": 600 },
+        { "title": "Beard", "charges": 500 }
+      ],
+      "serviceStaff": ["alexander davis", "benjamin miller"]
+    },
+    {
+      "serviceTitle": "kid's Haircut",
+      "serviceTypes": [
+        { "title": "Regular", "charges": 350 },
+        { "title": "Skin Cut", "charges": 400 }
+      ],
+      "serviceStaff": [
+        "benjamin miller",
+        "alexander davis",
+        "emily smith",
+        "olivia johnson"
+      ]
+    },
+    {
+      "serviceTitle": "Women's Haircut",
+      "serviceTypes": [
+        { "title": "Haircut", "charges": 1000 },
+        { "title": "Blowdry", "charges": 800 }
+      ],
+      "serviceStaff": ["emily smith", "olivia johnson"]
+    }
+  ]
+}
