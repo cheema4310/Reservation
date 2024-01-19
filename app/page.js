@@ -4,7 +4,7 @@ import OurServices from "@components/homePage/OurServices";
 
 const Home = () => {
   return (
-    <div className="">
+    <div>
       <ImageSection />
       <OurServices />
       <OurLocation />

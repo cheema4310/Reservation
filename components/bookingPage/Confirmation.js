@@ -74,20 +74,20 @@ const Confirmation = ({ services }) => {
           </div>
 
           <div className="flex flex-col md:flex-row">
-            <div className="w-full text-center my-4 md:my-0 md:mr-4">
+            <div className="w-full text-center md:my-0 md:mr-4">
               <Link
-                className="block py-2 text-lg  bg-darkGrey text-lightGrey rounded-lg uppercase font-semibold hover:bg-darkGreyPlus transition"
-                href="/login"
+                className="block py-2 text-lg  bg-regularGrey text-lightGrey rounded-lg uppercase font-semibold hover:bg-darkGreyPlus transition"
+                href="/"
               >
-                login to confirm
+                cancel
               </Link>
             </div>
-            <div className="w-full text-center">
+            <div className="w-full text-center order-first my-4 md:my-0 md:order-none">
               <Link
                 className="block py-2 text-lg  bg-darkGrey text-lightGrey rounded-lg uppercase font-semibold hover:bg-darkGreyPlus transition"
-                href="/guest"
+                href={`/confirm/?staff=${staffName}&service=${getServiceType}&date=${bookingDate}&time=${bookingTime}`}
               >
-                continue as guest
+                confirm booking
               </Link>
             </div>
           </div>

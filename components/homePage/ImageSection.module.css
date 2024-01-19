@@ -1,6 +1,6 @@
 .bgImage {
-  background-image: url("/assets/images/main-image-d.jpg");
-  background-position: center bottom;
+  background-image: url("/assets/images/main-image-try.jpg");
+  background-position: 50% 80%;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -24,8 +24,8 @@
 
 @media (max-width: 640px) {
   .bgImage {
-    background-image: url("/assets/images/main-image-m.jpg");
-    background-position: 70% 50%;
+    background-image: url("/assets/images/main-image-m-try1.jpg");
+    background-position: 60% 50%;
     height: 60vh;
   }
   .textAndActions {

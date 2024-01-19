@@ -25,6 +25,10 @@ module.exports = {
       boxShadow: {
         customInner: "inset 0 8px 4px 2px rgb(0 0 0 / 0.07)",
       },
+      backgroundImage: {
+        "confirm-page-image": "url('/assets/images/confirm-page.jpg')",
+        "confirm-page-m-image": "url('/assets/images/confirm-page-m.jpg')",
+      },
     },
   },
   plugins: [],
