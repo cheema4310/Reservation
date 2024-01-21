@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { validateInput } from "@utils/validateInputs.js";
 
@@ -15,6 +15,21 @@ const GuestInfoForm = () => {
   const [hasError, setHasError] = useState(false);
   const [lastError, setLastError] = useState("");
 
+  // search Params
+  const searchParams = useSearchParams();
+  const staffName = searchParams.get("staff");
+  const serviceType = searchParams.get("service");
+  const dateSelected = searchParams.get("date");
+  const timeSelected = searchParams.get("time");
+
+  // Refs
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
+  const emailRef = useRef();
+  const phoneNumberRef = useRef();
+
+  const router = useRouter();
+
   // useEffect Hook
   useEffect(() => {
     setHasError(Object.values(errors).some((error) => error.trim() !== ""));
@@ -23,18 +38,50 @@ const GuestInfoForm = () => {
     setLastError(filterArray.pop());
   }, [errors]);
 
-  // search Params
-  const searchParams = useSearchParams();
-
-  // Refs
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
-  const emailRef = useRef();
-  const phoneNumberRef = useRef();
-
   // handle onSubmit Event
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // handling validation onSubmit
+    handleValidation(firstNameRef.current.value, "firstName");
+    handleValidation(lastNameRef.current.value, "lastName");
+    handleValidation(emailRef.current.value, "email");
+    handleValidation(phoneNumberRef.current.value, "phoneNumber");
+
+    const guestInfo = {
+      firstName: firstNameRef.current.value,
+      lastName: lastNameRef.current.value,
+      email: emailRef.current.value,
+      phoneNumber: phoneNumberRef.current.value,
+    };
+
+    const bookingInfo = {
+      ...guestInfo,
+      staffName,
+      serviceType,
+      dateSelected: new Date(dateSelected),
+      timeSelected,
+    };
+
+    const isFull = Object.values(guestInfo).some((e) => e.trim() === "");
+
+    if (!hasError && !isFull) {
+      const sendData = async () => {
+        try {
+          await fetch("http://localhost:3000/api/reserve-a-spot", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(bookingInfo),
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      sendData();
+      console.log("sendData is running");
+
+      router.push(`/success-note?guest=${guestInfo.firstName}`);
+    }
   };
 
   // validation
@@ -42,16 +89,25 @@ const GuestInfoForm = () => {
     validateInput(inputRefValue, inputField, errors, setErrors);
   };
 
+  // handle onChange && onChange validation
+  const handleOnChange = (inputRefValue, inputField) => {
+    if (errors[inputField]) {
+      validateInput(inputRefValue, inputField, errors, setErrors);
+    }
+  };
+
   return (
     <form className="font-para" onSubmit={handleSubmit}>
       <div className="mb-4">
         <input
-          className="border-0 outline-none py-2 px-3 w-full text-darkGreyPlus rounded-md focus:bg-lightGreyPlus focus:outline-offset-2 focus:outline-lightGrey"
+          className={`${
+            errors.firstName ? "focus:outline-red-700 text-red-700" : ""
+          } border-0 outline-none py-2 px-3 w-full text-darkGreyPlus rounded-md focus:bg-lightGreyPlus focus:outline-offset-2 focus:outline-lightGrey`}
           type="text"
           ref={firstNameRef}
           autoFocus
           onChange={() =>
-            handleValidation(firstNameRef.current.value, "firstName")
+            handleOnChange(firstNameRef.current.value, "firstName")
           }
           placeholder="First Name"
           onBlur={() =>
@@ -61,33 +117,37 @@ const GuestInfoForm = () => {
       </div>
       <div className="mb-4">
         <input
-          className="border-0 outline-none py-2 px-3 w-full text-darkGreyPlus rounded-md focus:bg-lightGreyPlus focus:outline-offset-2 focus:outline-lightGrey"
+          className={`${
+            errors.lastName ? "focus:outline-red-700 text-red-700" : ""
+          } border-0 outline-none py-2 px-3 w-full text-darkGreyPlus rounded-md focus:bg-lightGreyPlus focus:outline-offset-2 focus:outline-lightGrey`}
           type="text"
           ref={lastNameRef}
-          onChange={() =>
-            handleValidation(lastNameRef.current.value, "lastName")
-          }
+          onChange={() => handleOnChange(lastNameRef.current.value, "lastName")}
           placeholder="Last Name"
           onBlur={() => handleValidation(lastNameRef.current.value, "lastName")}
         />
       </div>
       <div className="mb-4">
         <input
-          className="border-0 outline-none py-2 px-3 w-full text-darkGreyPlus rounded-md focus:bg-lightGreyPlus focus:outline-offset-2 focus:outline-lightGrey"
+          className={`${
+            errors.email ? "focus:outline-red-700 text-red-700" : ""
+          } border-0 outline-none py-2 px-3 w-full text-darkGreyPlus rounded-md focus:bg-lightGreyPlus focus:outline-offset-2 focus:outline-lightGrey`}
           type="text"
           ref={emailRef}
-          onChange={() => handleValidation(emailRef.current.value, "email")}
+          onChange={() => handleOnChange(emailRef.current.value, "email")}
           placeholder="Email"
           onBlur={() => handleValidation(emailRef.current.value, "email")}
         />
       </div>
       <div className="mb-4">
         <input
-          className="border-0 outline-none py-2 px-3 w-full text-darkGreyPlus rounded-md focus:bg-lightGreyPlus focus:outline-offset-2 focus:outline-lightGrey"
+          className={`${
+            errors.phoneNumber ? "focus:outline-red-700 text-red-700" : ""
+          } border-0 outline-none py-2 px-3 w-full text-darkGreyPlus rounded-md focus:bg-lightGreyPlus focus:outline-offset-2 focus:outline-lightGrey`}
           type="text"
           ref={phoneNumberRef}
           onChange={() =>
-            handleValidation(phoneNumberRef.current.value, "phoneNumber")
+            handleOnChange(phoneNumberRef.current.value, "phoneNumber")
           }
           placeholder="Phone Number"
           onBlur={() =>
