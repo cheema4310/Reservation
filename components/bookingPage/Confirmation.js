@@ -15,7 +15,6 @@ const Confirmation = ({ services }) => {
   for (const service of services) {
     for (const serviceType of service.serviceTypes) {
       if (serviceType.title === getServiceTypeFormat) {
-        console.log(serviceType.title);
         charges = serviceType.charges;
       }
     }
